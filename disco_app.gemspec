@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'active_link_to', '~> 1.0'
   s.add_runtime_dependency 'active_utils', '~> 3.2'
   s.add_runtime_dependency 'activemodel-serializers-xml', '~> 1.0'
-  s.add_runtime_dependency 'activerecord-session_store', '~> 1.0'
+  s.add_runtime_dependency 'activerecord-session_store', '~> 2.0'
   s.add_runtime_dependency 'acts_as_singleton', '~> 0.0.8'
   s.add_runtime_dependency 'appsignal', '~> 2.9'
   s.add_runtime_dependency 'classnames-rails', '~> 2.1'
