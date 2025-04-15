@@ -19,7 +19,8 @@ module DiscoApp
 
     def self.retrieve_by_shopify_domain(shopify_domain)
       Rails.logger.info("-----------------------Shopify Domain---------------\n #{shopify_domain}\n-----------")
-      shop = Shop.find_by(shopify_domain: shopify_domain)
+      shop = DiscoApp::Shop.find_by(shopify_domain: shopify_domain)
+      Rails.logger.info("-----------------------Shopify Shop---------------\n #{shop}\n-----------")
       ShopifyAPI::Auth::Session.new(shop: shop.shopify_domain, access_token: shop.shopify_token)
     end
 
