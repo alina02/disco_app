@@ -12,14 +12,14 @@ module DiscoApp
       return unless id
 
       shop = Shop.find(id)
-      ShopifyAPI::Session.new(domain: shop.shopify_domain, token: shop.shopify_token, api_version: shop.api_version)
+      ShopifyAPI::Auth::Session.new(domain: shop.shopify_domain, token: shop.shopify_token, api_version: shop.api_version)
     rescue ActiveRecord::RecordNotFound
       nil
     end
 
     def self.retrieve_by_shopify_domain(shopify_domain)
       shop = Shop.find_by(shopify_domain: shopify_domain)
-      ShopifyAPI::Session.new(domain: shop.shopify_domain, token: shop.shopify_token, api_version: shop.api_version)
+      ShopifyAPI::Auth::Session.new(domain: shop.shopify_domain, token: shop.shopify_token, api_version: shop.api_version)
     end
 
     def self.destroy_by_shopify_domain(shopify_domain)
