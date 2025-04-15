@@ -18,13 +18,12 @@ module DiscoApp
     end
 
     def self.retrieve_by_shopify_domain(shopify_domain)
-      Shop.find_by(shopify_domain: shopify_domain)
+      shop = Shop.find_by(shopify_domain: shopify_domain)
+      ShopifyAPI::Session.new(domain: shop.shopify_domain, token: shop.shopify_token, api_version: shop.api_version)
     end
 
     def self.destroy_by_shopify_domain(shopify_domain)
-      Shop.find_by(shopify_domain: shopify_domain).destroy
-    rescue ActiveRecord::RecordNotFound
-      nil
+      destroy_by(shopify_domain: shopify_domain)
     end
   end
 end
