@@ -33,7 +33,7 @@ module DiscoApp::Concerns::AuthenticatedController
 
     def shopify_shop
       if @shop_session = shop_session
-        @shop = DiscoApp::Shop.find_by!(shopify_domain: @shop_session.domain)
+        @shop = DiscoApp::Shop.find_by!(shopify_domain: @shop_session.shop)
       else
         redirect_to_login
       end
