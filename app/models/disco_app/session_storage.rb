@@ -17,5 +17,14 @@ module DiscoApp
       nil
     end
 
+    def self.retrieve_by_shopify_domain(shopify_domain)
+      Shop.find_by(shopify_domain: shopify_domain)
+    end
+
+    def self.destroy_by_shopify_domain(shopify_domain)
+      Shop.find_by(shopify_domain: shopify_domain).destroy
+    rescue ActiveRecord::RecordNotFound
+      nil
+    end
   end
 end
