@@ -31,6 +31,9 @@ module DiscoApp::Concerns::AuthenticatedController
     end
 
     def shopify_shop
+      Rails.logger.info("-------Shop params--------")
+      Rails.logger.info(params)
+      Rails.logger.info("-------Shop params End--------")
       if @shop_session = shop_session
         @shop = DiscoApp::Shop.find_by!(shopify_domain: @shop_session.shop)
       else

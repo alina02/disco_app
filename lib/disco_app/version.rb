@@ -1,5 +1,5 @@
 module DiscoApp
 
-  VERSION = '0.19.9'.freeze
+  VERSION = '0.19.10'.freeze
 
 end
