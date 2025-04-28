@@ -4,7 +4,6 @@ module DiscoApp::Concerns::AuthenticatedController
   include ShopifyApp::LoginProtection
 
   included do
-    before_action :set_shop_session
     before_action :auto_login
     before_action :check_shop_whitelist
     before_action :login_again_if_different_user_or_shop
@@ -12,14 +11,11 @@ module DiscoApp::Concerns::AuthenticatedController
     before_action :check_installed
     before_action :check_current_subscription
     before_action :check_active_charge
+    around_action :activate_shopify_session
     layout 'embedded_app'
   end
 
   private
-
-    def set_shop_session
-      @shop_session = shop_session
-    end
 
     def auto_login
       return unless shop_session.nil? && request_hmac_valid?
@@ -34,8 +30,8 @@ module DiscoApp::Concerns::AuthenticatedController
       Rails.logger.info("-------Shop params--------")
       Rails.logger.info(params)
       Rails.logger.info("-------Shop params End--------")
-      if @shop_session
-        @shop = DiscoApp::Shop.find_by!(shopify_domain: @shop_session.shop)
+      if shop_session
+        @shop = DiscoApp::Shop.find_by!(shopify_domain: shop_session.shop)
       else
         redirect_to_login
       end
