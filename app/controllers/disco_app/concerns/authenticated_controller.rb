@@ -29,8 +29,8 @@ module DiscoApp::Concerns::AuthenticatedController
       Rails.logger.info("-------Shop params--------")
       Rails.logger.info(params)
       Rails.logger.info("-------Shop params End--------")
-      if @current_shopify_session
-        @shop = DiscoApp::Shop.find_by!(shopify_domain: @current_shopify_session.shop)
+      if current_shopify_session
+        @shop = DiscoApp::Shop.find_by!(shopify_domain: current_shopify_session.shop)
       else
         redirect_to_login
       end
