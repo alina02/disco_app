@@ -10,7 +10,7 @@ module DiscoApp::Concerns::UserAuthenticatedController
   private
 
     def shopify_user
-      @user = DiscoApp::User.find(session[:shopify_user])
+      @user = DiscoApp::User.find(session[:shopify_user_id])
     rescue ActiveRecord::RecordNotFound
       redirect_to disco_app.new_user_session_path
     end
