@@ -3,7 +3,7 @@ module DiscoApp
 
     def self.store(session, *args)
       shop = DiscoApp::Shop.find_or_initialize_by(shopify_domain: session.shop)
-      shop.shopify_token = session.token
+      shop.shopify_token = session.access_token
       shop.save!
       shop.id
     end
