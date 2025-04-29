@@ -4,6 +4,7 @@ module DiscoApp::Concerns::AuthenticatedController
   include ShopifyApp::LoginProtection
 
   included do
+    around_action :activate_shopify_session
     before_action :auto_login
     before_action :check_shop_whitelist
     before_action :login_again_if_different_user_or_shop
@@ -11,7 +12,6 @@ module DiscoApp::Concerns::AuthenticatedController
     before_action :check_installed
     before_action :check_current_subscription
     before_action :check_active_charge
-    around_action :activate_shopify_session
     layout 'embedded_app'
   end
 
