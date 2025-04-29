@@ -4,6 +4,7 @@ module DiscoApp::Concerns::AuthenticatedController
   include ShopifyApp::LoginProtection
 
   included do
+    around_action :activate_shopify_session
     before_action :auto_login
     before_action :check_shop_whitelist
     before_action :login_again_if_different_user_or_shop
@@ -11,25 +12,26 @@ module DiscoApp::Concerns::AuthenticatedController
     before_action :check_installed
     before_action :check_current_subscription
     before_action :check_active_charge
-    around_action :shopify_session
     layout 'embedded_app'
   end
 
   private
 
     def auto_login
-      return unless shop_session.nil? && request_hmac_valid?
-
+      return unless current_shopify_session.nil? && request_hmac_valid?
       shop = DiscoApp::Shop.find_by(shopify_domain: sanitized_shop_name)
       return if shop.blank?
 
-      session[:shopify] = shop.id
+      session[:shop_id] = shop.id
       session[:shopify_domain] = sanitized_shop_name
     end
 
     def shopify_shop
-      if shop_session
-        @shop = DiscoApp::Shop.find_by!(shopify_domain: @shop_session.domain)
+      Rails.logger.info("-------Shop params--------")
+      Rails.logger.info(params)
+      Rails.logger.info("-------Shop params End--------")
+      if current_shopify_session
+        @shop = DiscoApp::Shop.find_by!(shopify_domain: current_shopify_session.shop)
       else
         redirect_to_login
       end
@@ -69,9 +71,9 @@ module DiscoApp::Concerns::AuthenticatedController
     end
 
     def check_shop_whitelist
-      return unless shop_session
+      return unless current_shopify_session
       return if ENV['WHITELISTED_DOMAINS'].blank?
-      return if ENV['WHITELISTED_DOMAINS'].include?(shop_session.url)
+      return if ENV['WHITELISTED_DOMAINS'].include?(current_shopify_session.url)
 
       redirect_to_login
     end

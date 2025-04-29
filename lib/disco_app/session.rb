@@ -8,7 +8,7 @@ module DiscoApp
       def set_shop_id!
         return false unless loaded?
 
-        write_attribute(:shop_id, data[:shopify] || data['shopify'])
+        write_attribute(:shop_id, data[:shop_id] || data['shop_id'])
       end
 
   end

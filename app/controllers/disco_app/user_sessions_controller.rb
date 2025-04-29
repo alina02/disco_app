@@ -20,7 +20,7 @@ class DiscoApp::UserSessionsController < ApplicationController
   end
 
   def destroy
-    session[:shopify_user] = nil
+    session[:shopify_user_id] = nil
     redirect_to root_path
   end
 
@@ -44,7 +44,7 @@ class DiscoApp::UserSessionsController < ApplicationController
 
     def login_user
       @user = DiscoApp::User.create_user(associated_user(auth_hash), @shop)
-      session[:shopify_user] = @user.id
+      session[:shopify_user_id] = @user.id
     end
 
     def return_address
