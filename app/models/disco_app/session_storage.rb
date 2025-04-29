@@ -3,6 +3,10 @@ module DiscoApp
 
     def self.store(session, *args)
       shop = DiscoApp::Shop.find_or_initialize_by(shopify_domain: session.shop)
+      Rails.logger.info("-------Session Storage--------")
+      Rails.logger.info(session.inspect)
+      Rails.logger.info(shop.inspect)
+      Rails.logger.info("-------Session Storage End--------")
       shop.shopify_token = session.access_token
       shop.save!
       shop.id
